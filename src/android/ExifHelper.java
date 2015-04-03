@@ -16,8 +16,7 @@
        specific language governing permissions and limitations
        under the License.
 */
-package org.apache.cordova.camera;
-
+package be.idealsystems.cordova.camera;
 import java.io.IOException;
 
 import android.media.ExifInterface;
@@ -98,6 +97,9 @@ public class ExifHelper {
      */
     public void writeExifData() throws IOException {
         // Don't try to write to a null file
+
+
+
         if (this.outFile == null) {
             return;
         }
@@ -153,6 +155,7 @@ public class ExifHelper {
         if (this.model != null) {
             this.outFile.setAttribute(ExifInterface.TAG_MODEL, this.model);
         }
+
         if (this.orientation != null) {
             this.outFile.setAttribute(ExifInterface.TAG_ORIENTATION, this.orientation);
         }
@@ -161,7 +164,9 @@ public class ExifHelper {
         }
 
         this.outFile.saveAttributes();
+
     }
+
 
     public int getOrientation() {
         int o = Integer.parseInt(this.orientation);
@@ -182,4 +187,5 @@ public class ExifHelper {
     public void resetOrientation() {
         this.orientation = "" + ExifInterface.ORIENTATION_NORMAL;
     }
+
 }

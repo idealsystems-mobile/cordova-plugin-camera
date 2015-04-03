@@ -21,8 +21,8 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
-    id="org.apache.cordova.camera"
-    version="0.3.7-dev">
+    id="be.idealsystems.cordova.camera"
+    version="0.3.7">
     <name>Camera</name>
     <description>Cordova Camera Plugin</description>
     <license>Apache 2.0</license>
@@ -55,30 +55,59 @@
         <js-module src="src/firefoxos/CameraProxy.js" name="CameraProxy">
           <runs />
         </js-module>
-    </platform>  
+    </platform>
 
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Camera">
-                <param name="android-package" value="org.apache.cordova.camera.CameraLauncher"/>
+                <param name="android-package" value="be.idealsystems.cordova.camera.ForegroundCameraLauncher"/>
             </feature>
         </config-file>
+
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
         </config-file>
 
-        <source-file src="src/android/CameraLauncher.java" target-dir="src/org/apache/cordova/camera" />
-        <source-file src="src/android/FileHelper.java" target-dir="src/org/apache/cordova/camera" />
-        <source-file src="src/android/ExifHelper.java" target-dir="src/org/apache/cordova/camera" />
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                android:label="ForegroundCameraPlugin"
+                android:name="be.idealsystems.cordova.camera.CameraActivity"
+                android:screenOrientation="portrait"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                />
+        </config-file>
 
-        <js-module src="www/CameraPopoverHandle.js" name="CameraPopoverHandle">
-            <clobbers target="CameraPopoverHandle" />
-        </js-module>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                android:name="be.idealsystems.cordova.camera.GalleryActivity"
+                android:label="Gallery"
+                android:screenOrientation="portrait"
+                />
+        </config-file>
 
-     </platform>
+        <source-file src="src/android/CameraActivity.java" target-dir="src/be/idealsystems/cordova/camera" />
+        <source-file src="src/android/CameraPreview.java" target-dir="src/be/idealsystems/cordova/camera" />
+        <source-file src="src/android/ExifHelper.java" target-dir="src/be/idealsystems/cordova/camera" />
+        <source-file src="src/android/FileHelper.java" target-dir="src/be/idealsystems/cordova/camera" />
+        <source-file src="src/android/ForegroundCameraLauncher.java" target-dir="src/be/idealsystems/cordova/camera" />
+        <source-file src="src/android/GalleryActivity.java" target-dir="src/be/idealsystems/cordova/camera" />
 
-    <!-- amazon-fireos -->
+        <source-file src="src/android/nativecameraplugin.xml" target-dir="res/layout" />
+        <source-file src="src/android/gallery.xml" target-dir="res/layout" />
+
+
+        <source-file src="src/android/res/btn_shot.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/btn_flip.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/btn_flash_on.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/btn_flash_no.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/btn_flash_auto.png" target-dir="res/drawable" />
+        <source-file src="src/android/res/viewfinder.png" target-dir="res/drawable" />
+    </platform>
+
+    <!-- amazon-fireos
     <platform name="amazon-fireos">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Camera">
@@ -97,8 +126,8 @@
             <clobbers target="CameraPopoverHandle" />
         </js-module>
 
-     </platform>
-     
+     </platform>-->
+
      <!-- ubuntu -->
      <platform name="ubuntu">
          <config-file target="config.xml" parent="/*">
